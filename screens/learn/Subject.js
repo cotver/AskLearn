@@ -22,10 +22,7 @@ import { Subject } from '../../data/data-dummy'
 
 const subjectScreen = (props) => {
     const cId = props.navigation.getParam("cId");
-    console.log(cId)
     const content = Subject.filter((subject) => subject.course == cId);
-    console.log(Subject)
-    console.log(content)
 
 
     const renderSubject = (itemData) => (

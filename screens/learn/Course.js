@@ -1,22 +1,8 @@
 import React, { useState } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    StyleSheet,
-    TouchableOpacity,
-    Switch,
-    Image,
-    Linking,
-    SafeAreaView,
-    ScrollView,
-    Platform,
-    FlatList
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
-import { createAppContainer} from "react-navigation";
 
 import { COURSE } from '../../data/data-dummy'
 
@@ -27,7 +13,6 @@ const courseScreen = (props) => {
     const renderCourse = (itemData) => (
         
         <TouchableOpacity style={{ margin: 5 }} onPress={() => {props.navigation.navigate('SubjectScreen', {cId: itemData.item.id})}}>    
-              {console.log(itemData.item.id)}
             <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, padding: 10, borderRadius: 10 }}>
                 <View style={{ flexDirection: 'column', alignContent: 'center' }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{itemData.item.name}</Text>

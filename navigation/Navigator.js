@@ -14,6 +14,7 @@ import RegisterPage from '../screens/auth/Register';
 
 import courseScreen from '../screens/learn/Course';
 import subjectScreen from '../screens/learn/Subject';
+import AskScreen from '../screens/learn/Ask';
 
 
 
@@ -22,7 +23,7 @@ const AskLearn = createMaterialTopTabNavigator({
     screen: subjectScreen,
   },
   Ask: {
-      screen: subjectScreen,
+      screen: AskScreen,
     },
   Quiz: {
       screen: subjectScreen,
