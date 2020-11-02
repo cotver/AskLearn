@@ -11,8 +11,8 @@ const courseScreen = (props) => {
 
 
     const renderCourse = (itemData) => (
-        
-        <TouchableOpacity style={{ margin: 5 }} onPress={() => {props.navigation.navigate('SubjectScreen', {cId: itemData.item.id})}}>    
+
+        <TouchableOpacity style={{ margin: 5 }} onPress={() => { props.navigation.navigate('SubjectScreen', { cId: itemData.item.id }) }}>
             <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, padding: 10, borderRadius: 10 }}>
                 <View style={{ flexDirection: 'column', alignContent: 'center' }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{itemData.item.name}</Text>
@@ -26,10 +26,10 @@ const courseScreen = (props) => {
     )
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <FlatList
-                data={ COURSE }
-                renderItem={ renderCourse }
+                data={COURSE}
+                renderItem={renderCourse}
             />
         </View>
 
@@ -38,37 +38,38 @@ const courseScreen = (props) => {
 };
 
 courseScreen.navigationOptions = (navigationData) => {
-    return {headerTitle: "",
-    headerLeft: ()=>(
-        <HeaderButtons>
-          <Item 
-            title='Menu'
-            IconComponent={Ionicons}
-            iconSize={23}
-            iconName = 'ios-menu'
-            color = 'gray'
-            onPress = {()=>{
-              navigationData.navigation.toggleDrawer();
-            }}
-          /> 
-        </HeaderButtons>
-        ),
-        headerRight: ()=>(
+    return {
+        headerTitle: "",
+        headerLeft: () => (
             <HeaderButtons>
-              <Item 
-                title='Menu'
-                IconComponent={Ionicons}
-                iconSize={30}
-                iconName = 'ios-notifications-outline'
-                color ='gray' //{isnotification?'red' :'gray'}
+                <Item
+                    title='Menu'
+                    IconComponent={Ionicons}
+                    iconSize={23}
+                    iconName='ios-menu'
+                    color='gray'
+                    onPress={() => {
+                        navigationData.navigation.toggleDrawer();
+                    }}
+                />
+            </HeaderButtons>
+        ),
+        headerRight: () => (
+            <HeaderButtons>
+                <Item
+                    title='Menu'
+                    IconComponent={Ionicons}
+                    iconSize={30}
+                    iconName='ios-notifications-outline'
+                    color='gray' //{isnotification?'red' :'gray'}
                 //onPress = {()=>{
                 //  
                 //}}
-              /> 
+                />
             </HeaderButtons>
-            ),
+        ),
     };
-  };
+};
 
 
 
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-      },
+    },
     uploadImg: {
         borderRadius: 200,
         height: 80,

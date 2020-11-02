@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { createStackNavigator } from "react-navigation-stack";
-import { createAppContainer} from "react-navigation";
+import { createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createBottomTabNavigator, createMaterialTopTabNavigator  } from 'react-navigation-tabs';
+import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,30 +23,30 @@ const AskLearn = createMaterialTopTabNavigator({
     screen: subjectScreen,
   },
   Ask: {
-      screen: AskScreen,
-    },
+    screen: AskScreen,
+  },
   Quiz: {
-      screen: subjectScreen,
-    },
+    screen: subjectScreen,
   },
+},
   {
-  navigationOptions: {
-    header: null
-  },
-  tabBarOptions: {
-    activeTintColor: 'white',
-    style: {
-      height: 56,
-      backgroundColor: 'orange',
-      shadowColor: 'rgba(0, 0, 0, 0.24)',
-      shadowOffset: {
-        width: 0,
-        height: 3
-      },
-      shadowRadius: 6,
-      shadowOpacity: 1
+    navigationOptions: {
+      header: null
+    },
+    tabBarOptions: {
+      activeTintColor: 'white',
+      style: {
+        height: 56,
+        backgroundColor: 'orange',
+        shadowColor: 'rgba(0, 0, 0, 0.24)',
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowRadius: 6,
+        shadowOpacity: 1
+      }
     }
-  }
   },
 )
 const Header = createAppContainer(AskLearn)
@@ -55,29 +55,30 @@ const Header = createAppContainer(AskLearn)
 
 const AskLearnNavigator = createStackNavigator(
   {
-    
-    CourseScreen: {screen: courseScreen},  
-    SubjectScreen: {screen: Header,
+
+    CourseScreen: { screen: courseScreen },
+    SubjectScreen: {
+      screen: Header,
       navigationOptions: {
 
-      headerTitle: '',
-    
-      headerRight: ()=>(
+        headerTitle: '',
+
+        headerRight: () => (
           <HeaderButtons>
-            <Item 
+            <Item
               title='Menu'
               IconComponent={Ionicons}
               iconSize={30}
-              iconName = 'ios-notifications-outline'
-              color ='gray' //{isnotification?'red' :'gray'}
-              //onPress = {()=>{
-              //  
-              //}}
-            /> 
+              iconName='ios-notifications-outline'
+              color='gray' //{isnotification?'red' :'gray'}
+            //onPress = {()=>{
+            //  
+            //}}
+            />
           </HeaderButtons>
-          ),
+        ),
       },
-    },  
+    },
   },
   {
     defaultNavigationOptions: {
@@ -91,42 +92,48 @@ const AskLearnNavigator = createStackNavigator(
 
 const bottomNavigator = createBottomTabNavigator(
   {
-    Home: {screen: AskLearnNavigator,
+    Home: {
+      screen: AskLearnNavigator,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
-        return (<Ionicons name="ios-home" size={30} color="black"  />);
-        }, },
+          return (<Ionicons name="ios-home" size={30} color="black" />);
+        },
+      },
     },
-    Chat: {screen: AskLearnNavigator,
+    Chat: {
+      screen: AskLearnNavigator,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
-        return (<Ionicons name="ios-chatbubbles" size={30} color="black"  />);
-        }, },
+          return (<Ionicons name="ios-chatbubbles" size={30} color="black" />);
+        },
+      },
     },
-    People: {screen: AskLearnNavigator,
+    People: {
+      screen: AskLearnNavigator,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
-        return (<Ionicons name="md-people" size={30} color="black"  />);
-        }, },
+          return (<Ionicons name="md-people" size={30} color="black" />);
+        },
+      },
     },
   },
-  { tabBarOptions: { activeTintColor: 'pink',} }
+  { tabBarOptions: { activeTintColor: 'pink', } }
 );
 
 const MainNavigator = createDrawerNavigator(
   {
-    AskLearn: {screen: bottomNavigator},
+    AskLearn: { screen: bottomNavigator },
   },
   { contentOptions: { activeTintColor: 'pink' } }
 );
 
 const AuthenNavigator = createStackNavigator(
   {
-    Main : {screen: Base},
-    LoginScreen: {screen: LoginPage},
-    RegisterScreen: {screen: RegisterPage},
-    Learn:{screen: MainNavigator}
-      
+    Main: { screen: Base },
+    LoginScreen: { screen: LoginPage },
+    RegisterScreen: { screen: RegisterPage },
+    Learn: { screen: MainNavigator }
+
   },
   {
     defaultNavigationOptions: {
@@ -150,7 +157,7 @@ const AuthenNavigator = createStackNavigator(
 //    }
 //  },
 //  );
- 
+
 
 
 //const FiltersNavigator = createStackNavigator(

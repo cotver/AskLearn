@@ -16,7 +16,7 @@ import {
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
-import { createAppContainer} from "react-navigation";
+import { createAppContainer } from "react-navigation";
 
 import { Subject } from '../../data/data-dummy'
 
@@ -27,8 +27,8 @@ const subjectScreen = (props) => {
 
     const renderSubject = (itemData) => (
         <TouchableOpacity style={{ margin: 5 }} //onPress={() => {props.navigation.navigate('MealDetail', {cId: itemData.item.id})}}
-            >    
-              
+        >
+
             <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'flex-start', borderColor: 'black', borderWidth: 1, padding: 10, borderRadius: 10 }}>
                 <View style={{ flexDirection: 'column', alignContent: 'center' }}>
                     <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{itemData.item.owner}</Text>
@@ -42,10 +42,10 @@ const subjectScreen = (props) => {
     )
 
     return (
-        <View style={{flex:1}}>
+        <View style={{ flex: 1 }}>
             <FlatList
-                data={ content }
-                renderItem={ renderSubject}
+                data={content}
+                renderItem={renderSubject}
             />
         </View>
 
@@ -54,24 +54,25 @@ const subjectScreen = (props) => {
 };
 
 subjectScreen.navigationOptions = (navigationData) => {
-    return {headerTitle: "asdf",
-    
-        headerRight: ()=>(
+    return {
+        headerTitle: "asdf",
+
+        headerRight: () => (
             <HeaderButtons>
-              <Item 
-                title='Menu'
-                IconComponent={Ionicons}
-                iconSize={30}
-                iconName = 'ios-notifications-outline'
-                color ='gray' //{isnotification?'red' :'gray'}
+                <Item
+                    title='Menu'
+                    IconComponent={Ionicons}
+                    iconSize={30}
+                    iconName='ios-notifications-outline'
+                    color='gray' //{isnotification?'red' :'gray'}
                 //onPress = {()=>{
                 //  
                 //}}
-              /> 
+                />
             </HeaderButtons>
-            ),
+        ),
     };
-  };
+};
 
 
 
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-      },
+    },
     uploadImg: {
         borderRadius: 200,
         height: 80,
