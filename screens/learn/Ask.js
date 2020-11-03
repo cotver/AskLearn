@@ -71,7 +71,6 @@ const AskScreen = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.input}
                             onPress={() => {
-                                setInput('');
                                 setInputVisible(true);
                             }}
                         >
@@ -108,7 +107,7 @@ const AskScreen = ({ navigation }) => {
 
     return (
         <View >
-            <Modal animationType="slide" visible={InputVisible}>
+            <Modal animationType="slide" visible={InputVisible}  onRequestClose={() => { setInputVisible(false); }}>
                 <View style={{ backgroundColor: '#ea87b09e' }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexDirection: 'row', margin: 10 }}>
                         <TouchableOpacity
@@ -126,6 +125,8 @@ const AskScreen = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.post}
                             onPress={() => {
+                                console.log(Input);
+                                setInput('');
                                 setInputVisible(false);
                             }}
                         >
