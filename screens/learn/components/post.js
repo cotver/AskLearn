@@ -42,21 +42,14 @@ class Post extends React.Component {
   };
 
   renderpost = (image, text) => {
-    if (image && text) {
       return (
         <View style={{ paddingVertical: 5 }}>
-          <Text>{this.props.text}</Text>
+          <Text>{text}</Text>
           <Text></Text>
         </View>
       )
     }
-    else if (image) {
-      return <Text></Text>
-    }
-    else if (text) {
-      return <Text>{text}</Text>
-    }
-  }
+
   render() {
 
     return (
@@ -91,6 +84,8 @@ class Post extends React.Component {
             </TouchableOpacity>
           </View>
         </View>
+
+
         <Modal
           visible={this.props.commentVisible}
           animationType="slide"

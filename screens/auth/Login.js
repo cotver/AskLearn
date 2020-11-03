@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView} from "react-native";
-import theme from "../../themes/default"
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
 
 
 const LoginPage = (props) => {
@@ -11,36 +10,36 @@ const LoginPage = (props) => {
     }
 
     return (
-<ScrollView style={{ backgroundColor: 'white' }}>
-        <View style={styles.screen}>
-            <View style={styles.topArea}>
-                <Image source={require("../../assets/icon.png")} style={styles.logo} />
-                <Text style={{ ...theme.font, fontSize: 25, fontWeight: 'bold' }}>เข้าสู่ระบบ</Text>
-            </View>
-            <View style={styles.inputArea}>
-                <TextInput placeholder="อีเมล" style={[styles.input, theme.font]} />
-                <TextInput placeholder="รหัสผ่าน" style={[styles.input, theme.font]} />
-            </View>
-            <View style={styles.buttonArea}>
-                <TouchableOpacity style={[styles.button, theme.defaultButton]} onPress={LoginSubmit}>
-                    <Text style={{ ...theme.font, textAlign: 'center' }}>เข้าสู่ระบบ</Text>
-                </TouchableOpacity>
-            </View>
+        <ScrollView style={{ backgroundColor: 'white' }}>
+            <View style={styles.screen}>
+                <View style={styles.topArea}>
+                    <Image source={require("../../assets/icon.png")} style={styles.logo} />
+                    <Text style={{ fontSize: 20, fontSize: 25, fontWeight: 'bold' }}>เข้าสู่ระบบ</Text>
+                </View>
+                <View style={styles.inputArea}>
+                    <TextInput placeholder="อีเมล" style={styles.input} />
+                    <TextInput placeholder="รหัสผ่าน" style={styles.input} />
+                </View>
+                <View style={styles.buttonArea}>
+                    <TouchableOpacity style={styles.button} onPress={LoginSubmit}>
+                        <Text style={{ fontSize: 20, textAlign: 'center' }}>เข้าสู่ระบบ</Text>
+                    </TouchableOpacity>
+                </View>
 
-        </View>
+            </View>
         </ScrollView>
     );
 };
 
 LoginPage.navigationOptions = (navigationData) => {
-    return {headerTitle: ""
+    return {
+        headerTitle: ""
     };
-  };
+};
 
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        // justifyContent: "center",
         alignItems: "center",
         backgroundColor: 'white'
     },
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
         width: '80%',
         marginBottom: '5%',
         textAlign: 'center',
-        // paddingHorizontal: 40,
+        fontSize: 20,
         paddingVertical: 10,
 
     },
@@ -75,11 +74,11 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'column',
         alignItems: 'center',
-        // width: 100%
     },
     button: {
+        backgroundColor: '#43B8D2',
+        color: 'white',
         borderColor: 'black',
-        //borderWidth: 1,
         borderRadius: 5,
         textAlign: 'center',
         marginHorizontal: '10%',

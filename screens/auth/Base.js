@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import theme from "../../themes/default"
 
 const Base = (props) => {
 
@@ -12,12 +11,12 @@ const Base = (props) => {
                 <TouchableOpacity style={ styles.button} onPress={()=>{
                     props.navigation.navigate("LoginScreen")
                 }}>
-                    <Text style={{ ...theme.font, textAlign: 'center' }}>เข้าสู่ระบบ</Text>
+                    <Text style={{fontSize: 20, textAlign: 'center' }}>เข้าสู่ระบบ</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={ styles.button } onPress={()=>{
                     props.navigation.navigate("RegisterScreen")
                 }}>
-                    <Text style={{ ...theme.font, textAlign: 'center' }}>สมัครสมาชิก</Text>
+                    <Text style={{fontSize: 20, textAlign: 'center' }}>สมัครสมาชิก</Text>
                 </TouchableOpacity>
             </View>
 
@@ -35,7 +34,7 @@ Base.navigationOptions = (navigationData) => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        fontSize: theme.font.fontSize,
+        fontSize: 20,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: 'white'

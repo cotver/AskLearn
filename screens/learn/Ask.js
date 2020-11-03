@@ -54,30 +54,7 @@ const AskScreen = ({ navigation }) => {
         },
     ]
 
-    // useEffect(() =>{
-    //   fetch("http://364edd12ecf8.ngrok.io/register/student")
-    //     .then((response) => response.json())
-    //     .then((json) => console.log(json))
-    // }, [])
-
-    // const addPost = (title) => {
-    //   const newPost = { id, title, like: 0 };
-    //   setPosts([newPost, ...posts]);
-    //   id += 1;
-    // };
-
-    // const likePost = (id, status) => {
-    //   const likePost = posts.filter((value) => id == value.id);
-    //   const allPost = posts.filter((value) => id != value.id);
-    //   if (status) {
-    //     likePost[0].like -= 1;
-    //   } else {
-    //     likePost[0].like += 1;
-    //   }
-    //   allPost.push(...likePost);
-    //   const allPostSorted = allPost.sort((a, b) => b.id - a.id);
-    //   setPosts([...allPostSorted]);
-    // };
+   
     const comVisible= (stats) =>{
         setcommentVisible(stats)
     }
@@ -98,7 +75,7 @@ const AskScreen = ({ navigation }) => {
                                 setInputVisible(true);
                             }}
                         >
-                            <Text style={styles.text}>Ask something you don't know</Text>
+                            <Text style={styles.text}>Ask something</Text>
                         </TouchableOpacity>
                     </View>
                     <Post
