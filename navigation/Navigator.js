@@ -15,7 +15,8 @@ import RegisterPage from '../screens/auth/Register';
 import courseScreen from '../screens/learn/Course';
 import subjectScreen from '../screens/learn/Subject';
 import AskScreen from '../screens/learn/Ask';
-
+import ProfileScreen from '../screens/editPro/Profile';
+// import editProScreen from '../screens/editPro/edit';
 
 
 const AskLearn = createMaterialTopTabNavigator({
@@ -120,9 +121,23 @@ const bottomNavigator = createBottomTabNavigator(
   { tabBarOptions: { activeTintColor: 'pink', } }
 );
 
+const ProfileNavigator = createStackNavigator(
+  {
+    Profile: {screen: ProfileScreen},    
+  },
+);
+// const editProNavigator = createStackNavigator(
+//   {
+//     editPro: {screen: editProScreen},    
+//   },
+// );
+
+
 const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
+    Profile: { screen: ProfileScreen },
+    // editPro: { screen: editProScreen },
   },
   { contentOptions: { activeTintColor: 'pink' } }
 );
