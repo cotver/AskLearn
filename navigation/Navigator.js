@@ -136,7 +136,7 @@ const ProfileNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
-    Profile: { screen: ProfileScreen },
+    EditProfile: { screen: ProfileScreen },
     // editPro: { screen: editProScreen },
   },
   { contentOptions: { activeTintColor: 'pink' } }
