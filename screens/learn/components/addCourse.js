@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, ScrollView, Tex
 import { AntDesign } from '@expo/vector-icons';
 
 
-class workAdder extends React.Component {
+class courseAdder extends React.Component {
     state = {
         inputText: ""
     }
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default workAdder;
+export default courseAdder;
