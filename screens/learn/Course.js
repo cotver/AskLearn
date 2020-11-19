@@ -6,8 +6,15 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { COURSE } from '../../data/data-dummy'
 
+import AddCourse from './components/addCourse'
+
 const courseScreen = (props) => {
     const [isnotification, setnotification] = useState(false)
+    const [addVisible, setaddVisible] = useState(false)
+
+    const changeVisible= (stats) =>{
+        setaddVisible(stats)
+    }
 
 
     const renderCourse = (itemData) => (
@@ -28,8 +35,12 @@ const courseScreen = (props) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.add}>
-                <Button title="add Course" />
+                <Button title="add Course" onPress={() => changeVisible(true)}/>
             </View>
+            <AddCourse
+                visible={addVisible}
+                addVisible ={changeVisible}
+            />
             <FlatList
                 data={COURSE}
                 renderItem={renderCourse}

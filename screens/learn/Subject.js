@@ -11,6 +11,8 @@ import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
 import { createAppContainer } from "react-navigation";
 
+import AddWork from './components/workAdder'
+
 import { Subject } from '../../data/data-dummy'
 
 const subjectScreen = (props) => {
@@ -18,10 +20,14 @@ const subjectScreen = (props) => {
     const cTitle = props.navigation.getParam("cTitle");
 
     const content = Subject.filter((subject) => subject.course == cId);
+    const [addVisible, setaddVisible] = useState(false)
 
+    const changeVisible= (stats) =>{
+        setaddVisible(stats)
+    }
 
     const renderSubject = (itemData) => (
-
+       
         <View style={styles.Box}>
             <View style={styles.row}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{itemData.item.owner}</Text>
@@ -38,10 +44,14 @@ const subjectScreen = (props) => {
         <View style={{ flex: 1 }}>
             <View style={styles.head}>
                 <View style={styles.add}>
-                    <Button title="add Work" />
+                    <Button title="add Work" onPress={() => changeVisible(true)} />
                 </View>
                 <Text style={styles.Header}>{cTitle}</Text>
             </View>
+            <AddWork
+                visible={addVisible}
+                addVisible ={changeVisible}
+            />
             <FlatList
                 data={content}
                 renderItem={renderSubject}
