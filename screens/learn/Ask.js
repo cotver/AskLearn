@@ -61,6 +61,7 @@ const AskScreen = ({ navigation }) => {
 
     const renderPostItem = ({ item }) => {
         if (item.id == "1") {
+            const post = ""
             return (
                 <View>
                     <View style={styles.box}>
