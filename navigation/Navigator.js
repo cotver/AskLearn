@@ -1,4 +1,5 @@
 import React from 'react';
+import {Image} from "react-native";
 
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
@@ -62,7 +63,7 @@ const AskLearnNavigator = createStackNavigator(
       screen: Header,
       navigationOptions: {
 
-        headerTitle: '',
+        headerTitle: () =>  (<Image style={{width:150, height:50}} source={require('../assets/icon.png')}/>),
 
         headerRight: () => (
           <HeaderButtons>
