@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Button } from "react-native";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,10 +12,10 @@ const courseScreen = (props) => {
 
     const renderCourse = (itemData) => (
 
-        <TouchableOpacity style={{ margin: 5 }} onPress={() => { props.navigation.navigate('SubjectScreen', { cId: itemData.item.id }) }}>
-            <View style={{ flexDirection: 'row', alignContent: 'center', justifyContent: 'center', borderColor: 'black', borderWidth: 1, padding: 10, borderRadius: 10 }}>
-                <View style={{ flexDirection: 'column', alignContent: 'center' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{itemData.item.name}</Text>
+        <TouchableOpacity style={{ margin: 5 }} onPress={() => { props.navigation.navigate('SubjectScreen', { cId: itemData.item.id, cTitle: itemData.item.name }) }}>
+            <View style={styles.Box}>
+                <View style={styles.row}>
+                    <Text style={styles.Header}>{itemData.item.name}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text numberOfLines={2} style={{ fontSize: 10, fontWeight: 'bold' }}>{itemData.item.description}</Text>
                     </View>
@@ -27,6 +27,9 @@ const courseScreen = (props) => {
 
     return (
         <View style={{ flex: 1 }}>
+            <View style={styles.add}>
+                <Button title="add Course" />
+            </View>
             <FlatList
                 data={COURSE}
                 renderItem={renderCourse}
@@ -39,7 +42,7 @@ const courseScreen = (props) => {
 
 courseScreen.navigationOptions = (navigationData) => {
     return {
-        headerTitle: "",
+        headerTitle: () => (<Image style={{ width: 150, height: 50 }} source={require('../../assets/icon.png')} />),
         headerLeft: () => (
             <HeaderButtons>
                 <Item
@@ -70,7 +73,30 @@ courseScreen.navigationOptions = (navigationData) => {
         ),
     };
 };
-
+const styles = StyleSheet.create({
+    Header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
+    Box: {
+        flexDirection: 'row',
+        alignContent: 'center',
+        justifyContent: 'center',
+        borderColor: 'black',
+        borderWidth: 1,
+        padding: 10,
+        borderRadius: 10
+    },
+    row: {
+        flexDirection: 'column',
+        alignContent: 'center'
+    },
+    add: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        padding: 10,
+    }
+});
 
 
 export default courseScreen;
