@@ -1,5 +1,4 @@
 import React from 'react';
-import {Image} from "react-native";
 
 import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
@@ -15,6 +14,8 @@ import RegisterPage from '../screens/auth/Register';
 
 import courseScreen from '../screens/learn/Course';
 import subjectScreen from '../screens/learn/Subject';
+import QuizIndex from '../screens/learn/QuizIndex';
+import Quiz from "../screens/learn/Quiz";
 import AskScreen from '../screens/learn/Ask';
 import ProfileScreen from '../screens/editPro/Profile';
 // import editProScreen from '../screens/editPro/edit';
@@ -28,7 +29,7 @@ const AskLearn = createMaterialTopTabNavigator({
     screen: AskScreen,
   },
   Quiz: {
-    screen: subjectScreen,
+    screen: QuizIndex,
   },
 },
   {
@@ -81,6 +82,22 @@ const AskLearnNavigator = createStackNavigator(
         ),
       },
     },
+    QuizIndex: { screen: QuizIndex,
+      navigationOptions: {
+        headerTitle: "Quizzes"
+      }
+    },
+    Quiz: {
+      screen: Quiz,
+      navigationOptions: ({ navigation }) => ({
+        headerTitle: navigation.getParam("title"),
+        headerTintColor: "#fff",
+        headerStyle: {
+          backgroundColor: navigation.getParam("color"),
+          borderBottomColor: navigation.getParam("color")
+        }
+      })
+    }
   },
   {
     defaultNavigationOptions: {
