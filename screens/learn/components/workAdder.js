@@ -17,26 +17,57 @@ class workAdder extends React.Component {
                     animationType="slide"
                     onRequestClose={() => { this.props.addVisible(false) }}
                 >
-                    <View style={styles.container1}>
-                        <TouchableOpacity
-                            style={styles.leftText}
-                            onPress={() => { this.props.addVisible(false) }}
-                        >
-                            <Text>{"Close"}</Text>
-                        </TouchableOpacity>
-                        <Text style={styles.title}>{"Comment"}</Text>
+                    <View style={{ backgroundColor: '#ea87b09e' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexDirection: 'row', margin: 10 }}>
+                            <TouchableOpacity
+                                style={styles.cancel}
+                                onPress={() => {
+                                    this.props.addVisible(false)
+                                    this.setState({ course: "" })
+                                    this.setState({ description: "" })
+                                }}
+                            >
+                                <Text>{"Cancel"}</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.title}>{"Add Work"}</Text>
+                            <TouchableOpacity
+                                style={styles.add}
+                                onPress={() => {
+                                    this.props.addVisible(false)
+                                    this.setState({ course: "" })
+                                    this.setState({ description: "" })
+                                    console.log(this.state.course)
+                                    console.log(this.state.description)
+                                }}
+                            >
+                                <Text>{"Add"}</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                    <View style={styles.container2}>
-                        <TextInput
-                            style={styles.input}
-                            value={this.state.inputText}
-                            placeholder={"Type something"}
-                            underlineColorAndroid="transparent"
-                            onChangeText={(input) => { this.setState({ inputText: input }) }}
-                            onSubmitEditing={(input) => { console.log(this.state.inputText), this.setState({ inputText: "" }) }}
-                        />
-                    </View>
-                    <ScrollView></ScrollView>
+                    <ScrollView>
+                        <View style={styles.courseContainer}>
+                            <TextInput
+                                style={styles.course}
+                                multiline={true}
+                                value={this.state.course}
+                                placeholder={"Title"}
+                                underlineColorAndroid="transparent"
+                                onChangeText={(input) => { this.setState({ course: input }) }}
+                                onSubmitEditing={() => { console.log(this.state.course), this.setState({ course: "" }) }}
+                            />
+                        </View>
+                        <View style={styles.descriptionContainer}>
+                            <TextInput
+                                style={styles.description}
+                                multiline={true}
+                                value={this.state.description}
+                                placeholder={"Description"}
+                                underlineColorAndroid="transparent"
+                                onChangeText={(input) => { this.setState({ description: input }) }}
+                                onSubmitEditing={() => { console.log(this.state.description), this.setState({ description: "" }) }}
+                            />
+                        </View>
+                    </ScrollView>
                 </Modal>
             </View>
         );
@@ -44,52 +75,28 @@ class workAdder extends React.Component {
 };
 
 const styles = StyleSheet.create({
-    Container: {
-        flex: 1,
-        flexDirection: "column",
-        marginBottom: 20,
-        marginHorizontal: 7,
-        padding: 10,
-        borderWidth: 1,
-        borderBottomColor: "black",
-        borderRadius: 20,
+    course: {
+        fontSize: 25,
+        height: 70,
+
     },
-    profile: {
-        resizeMode: "cover",
-        height: 47,
-        width: 47,
-        borderRadius: 50,
-        backgroundColor: "#FF5350",
-        marginRight: 10,
+    description: {
+        fontSize: 20,
+        
     },
-    user: {
-        fontWeight: "bold",
-        marginRight: 10,
-    },
-    button: {
-        alignItems: "center",
-        flexDirection: "row",
-        padding: 8,
-    },
-    box: {
-        flexDirection: "row",
-        paddingHorizontal: 5,
-    },
-    comment: {
-        marginLeft: 20,
-        paddingVertical: 20,
-        paddingRight: 20,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: 'rgba(0,0,0,0.05)',
-    },
-    input: {
-        flex: 1,
-    },
-    container2: {
+    courseContainer: {
+        marginTop: 15,
         borderBottomWidth: StyleSheet.hairlineWidth,
         borderBottomColor: 'rgba(0,0,0,0.1)',
         paddingHorizontal: 20,
         height: 60,
+    },
+    descriptionContainer: {
+        marginTop: 15,
+        borderBottomWidth: StyleSheet.hairlineWidth,
+        borderBottomColor: 'rgba(0,0,0,0.1)',
+        paddingHorizontal: 20,
+        height: "100%",
     },
     container1: {
         height: 40,
@@ -99,14 +106,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     title: {
-        fontWeight: '500',
+        fontWeight: "bold",
+        fontSize: 25,
     },
-    leftText: {
-        position: 'absolute',
-        left: 20,
-        top: 0,
-        bottom: 0,
-        justifyContent: 'center',
+    cancel: {
+        padding: 10,
+        borderRadius: 5,
+        borderWidth: 1,
+        backgroundColor: '#ff3737bf',
+        justifyContent: 'flex-end'
+    },
+    add: {
+        padding: 10,
+        borderRadius: 5,
+        borderWidth: 1,
+        backgroundColor: '#F90',
+        justifyContent: 'flex-end'
     },
 });
 
