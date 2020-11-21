@@ -157,10 +157,11 @@ const MainNavigator = createDrawerNavigator(
 
 const AuthenNavigator = createStackNavigator(
   {
-    Main: { screen: Base },
     LoginScreen: { screen: LoginPage },
     RegisterScreen: { screen: RegisterPage },
-    Learn: { screen: MainNavigator }
+    Learn: { screen: MainNavigator, navigationOptions: ({ navigation }) => ({
+      headerShown: false
+    }) }
 
   },
   {
@@ -198,4 +199,4 @@ const AuthenNavigator = createStackNavigator(
 
 
 
-export default createAppContainer(MainNavigator);
+export default createAppContainer(AuthenNavigator);
