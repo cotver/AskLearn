@@ -1,47 +1,62 @@
 import React from "react";
-import { ScrollView, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+} from "react-native";
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Questions from "./Questions";
+import { NativeRouter, Link } from "react-router-native";
+import { Ionicons } from "@expo/vector-icons";
 
-import spaceQuestions from "../../data/space";
-import westernsQuestions from "../../data/westerns";
-import computerQuestions from "../../data/computer";
+export default class Quiz extends React.Component {
+  render() {
+    return (
+      <NativeRouter>
+      <View style={styles.container}>
+        <Image
+          source={require("../../assets/splash.png")}
+          style={{ width: 200, height: 85 }}
+        />
+        <Button type="outline"
+        borderRi
+        icon={
+          <Icon
+            name="play-circle"
+            size={50}
+            color="pink"
+          />
+        }title="  Start Quiz" onPress={() => this.props.navigation.navigate('Questions')}>
+        </Button>
+      </View>
+      </NativeRouter>
+    );
+  }
+}
 
-import { RowItem } from "./components/RowItem";
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
 
-export default ({ navigation }) => (
-  <ScrollView>
-    <StatusBar barStyle="dark-content" />
-    <RowItem
-      name="Space"
-      color="#36b1f0"
-      onPress={() =>
-        navigation.navigate("Quiz", {
-          title: "Space",
-          questions: spaceQuestions,
-          color: "#36b1f0"
-        })
-      }
-    />
-    <RowItem
-      name="Westerns"
-      color="#799496"
-      onPress={() =>
-        navigation.navigate("Quiz", {
-          title: "Westerns",
-          questions: westernsQuestions,
-          color: "#799496"
-        })
-      }
-    />
-    <RowItem
-      name="Computers"
-      color="#49475B"
-      onPress={() =>
-        navigation.navigate("Quiz", {
-          title: "Computers",
-          questions: computerQuestions,
-          color: "#49475B"
-        })
-      }
-    />
-  </ScrollView>
-);
+  welcome: {
+    fontSize: 22,
+    fontWeight: "bold",
+    backgroundColor: "#3498db",
+    color: "white",
+    padding: 10
+  },
+
+  paragraph: {
+    fontSize: 16,
+    color: "#777",
+    textAlign: "center",
+    padding: 10,
+    marginTop: 15,
+    lineHeight: 25
+  }
+});

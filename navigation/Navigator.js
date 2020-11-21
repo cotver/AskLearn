@@ -15,8 +15,8 @@ import RegisterPage from '../screens/auth/Register';
 
 import courseScreen from '../screens/learn/Course';
 import subjectScreen from '../screens/learn/Subject';
-import QuizIndex from '../screens/learn/QuizIndex';
-import Quiz from "../screens/learn/Quiz";
+import Questions from '../screens/learn/Questions';
+import QuizScreen from '../screens/learn/QuizIndex';
 import AskScreen from '../screens/learn/Ask';
 import ProfileScreen from '../screens/editPro/Profile';
 // import editProScreen from '../screens/editPro/edit';
@@ -30,7 +30,7 @@ const AskLearn = createMaterialTopTabNavigator({
     screen: AskScreen,
   },
   Quiz: {
-    screen: QuizIndex,
+    screen: QuizScreen,
   },
 },
   {
@@ -83,21 +83,13 @@ const AskLearnNavigator = createStackNavigator(
         ),
       },
     },
-    QuizIndex: { screen: QuizIndex,
+    QuizScreen: { screen: QuizScreen,
       navigationOptions: {
         headerTitle: "Quizzes"
       }
     },
-    Quiz: {
-      screen: Quiz,
-      navigationOptions: ({ navigation }) => ({
-        headerTitle: navigation.getParam("title"),
-        headerTintColor: "#fff",
-        headerStyle: {
-          backgroundColor: navigation.getParam("color"),
-          borderBottomColor: navigation.getParam("color")
-        }
-      })
+    Questions: {
+      screen: Questions,
     }
   },
   {
@@ -156,6 +148,8 @@ const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
     EditProfile: { screen: ProfileScreen },
+    Login : { screen: Base }
+    
     // editPro: { screen: editProScreen },
   },
   { contentOptions: { activeTintColor: 'pink' } }
@@ -163,11 +157,10 @@ const MainNavigator = createDrawerNavigator(
 
 const AuthenNavigator = createStackNavigator(
   {
+    Main: { screen: Base },
     LoginScreen: { screen: LoginPage },
     RegisterScreen: { screen: RegisterPage },
-    Learn: { screen: MainNavigator, navigationOptions: ({ navigation }) => ({
-      headerShown: false
-    }) }
+    Learn: { screen: MainNavigator }
 
   },
   {
@@ -205,4 +198,4 @@ const AuthenNavigator = createStackNavigator(
 
 
 
-export default createAppContainer(AuthenNavigator);
+export default createAppContainer(MainNavigator);
