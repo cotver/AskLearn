@@ -1,25 +1,72 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Button, LogBox } from "react-native";
 
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import { COURSE } from '../../data/data-dummy'
 
 import AddCourse from './components/addCourse'
 
-const courseScreen = (props) => {
-    const [isnotification, setnotification] = useState(false)
-    const [addVisible, setaddVisible] = useState(false)
+import firebase from '../../config/Firebase';
 
-    const changeVisible= (stats) =>{
-        setaddVisible(stats)
+import { snapshotToArray } from '../helper'
+
+
+
+class courseScreen extends React.Component {
+    state = {
+        courses: [],
+        userId: "",
+        description: "",
+        addVisible: false,
+        isLoading:true,
+    }
+
+    componentDidMount() {
+        LogBox.ignoreLogs(['Setting a timer']);
+        this.liveUpdate();
+    }
+
+    liveUpdate = () => {
+        let data = []
+        firebase.database().ref().child('courses').on('value', (snapshot) => {
+            data = snapshotToArray(snapshot)
+                .map(course => ({
+                    name: course.name,
+                    description: course.description,
+                    id: course.id,
+                }));
+
+            this.setState({
+                courses: data,
+                isLoading:false,
+            })
+
+        });
     }
 
 
-    const renderCourse = (itemData) => (
 
-        <TouchableOpacity style={{ margin: 5 }} onPress={() => { props.navigation.navigate('SubjectScreen', { cId: itemData.item.id, cTitle: itemData.item.name }) }}>
+    addHandler = (name, description) => {
+        firebase.database().ref()
+            .child('courses')
+            .push({
+                name: name,
+                description: description,
+            });
+
+    }
+
+    changeVisible = (stats) => {
+        this.setState({ addVisible: stats })
+    }
+
+
+    renderCourse = (itemData) => (
+
+        <TouchableOpacity style={{ margin: 5 }} onPress={() => { this.props.navigation.navigate('SubjectScreen', { cId: itemData.item.id, cTitle: itemData.item.name }) }}>
             <View style={styles.Box}>
                 <View style={styles.row}>
                     <Text style={styles.Header}>{itemData.item.name}</Text>
@@ -31,24 +78,29 @@ const courseScreen = (props) => {
             </View>
         </TouchableOpacity>
     )
+    render() {
 
-    return (
-        <View style={{ flex: 1 }}>
-            <View style={styles.add}>
-                <Button title="add Course" onPress={() => changeVisible(true)}/>
+        return (
+            <View style={{ flex: 1 }}>
+                <View style={styles.add}>
+                    <Button title="add Course" onPress={() => (this.changeVisible(true))} />
+                </View>
+                <AddCourse
+                    visible={this.state.addVisible}
+                    addVisible={this.changeVisible}
+                    addHandler={this.addHandler}
+                />
+                <FlatList
+                    data={this.state.courses}
+                    renderItem={this.renderCourse}
+                />
+                <Spinner visible={this.state.isLoading} />
             </View>
-            <AddCourse
-                visible={addVisible}
-                addVisible ={changeVisible}
-            />
-            <FlatList
-                data={COURSE}
-                renderItem={renderCourse}
-            />
-        </View>
 
 
-    );
+        );
+    }
+
 };
 
 courseScreen.navigationOptions = (navigationData) => {

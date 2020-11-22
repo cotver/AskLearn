@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView , LogBox} from "react-native";
-import firebase from '../../config/Firebase';
 import validator from 'validator';
+
+import firebase from '../../config/Firebase';
+
 
 const RegisterPage = (props) => {
     LogBox.ignoreLogs(['Setting a timer']);
@@ -62,7 +64,7 @@ const RegisterPage = (props) => {
                         photoURL: "",
                         role:"Student"
                     });
-
+                    console.log(user.uid)
                 // Update the user's metadata on firebase
                 user.updateProfile({
                     displayName: name,

@@ -37,8 +37,7 @@ class courseAdder extends React.Component {
                                     this.props.addVisible(false)
                                     this.setState({ course: "" })
                                     this.setState({ description: "" })
-                                    console.log(this.state.course)
-                                    console.log(this.state.description)
+                                    this.props.addHandler(this.state.course, this.state.description)
                                 }}
                             >
                                 <Text>{"Add"}</Text>

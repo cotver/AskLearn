@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, ScrollView } from "react-native";
-import firebase from '../../config/Firebase';
+import Spinner from 'react-native-loading-spinner-overlay';
 import validator from 'validator';
+
+import firebase from '../../config/Firebase';
 
 const LoginPage = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [emailError, setEmailError] = useState("");
     const [Ferror, setFerror] = useState("");
+    const [isLoading, setisLoading] = useState(false);
 
     const runValidation = () => {
         const isEmail = validator.isEmail(email);
@@ -27,6 +30,7 @@ const LoginPage = (props) => {
     }
 
     const onLoginPress = () => {
+        setisLoading(true)
         if (!runValidation()) {
             return;
         }
@@ -35,6 +39,7 @@ const LoginPage = (props) => {
             .auth()
             .signInWithEmailAndPassword(email, password)
             .then(() => {
+                setisLoading(false);
                 props.navigation.navigate('Learn');
             })
             .catch((error) => {
@@ -80,6 +85,7 @@ const LoginPage = (props) => {
                 </View>
 
             </View>
+            <Spinner visible={isLoading} />
         </ScrollView>
     );
 };

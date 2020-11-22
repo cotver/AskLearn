@@ -5,7 +5,8 @@ import { AntDesign } from '@expo/vector-icons';
 
 class workAdder extends React.Component {
     state = {
-        inputText: ""
+        course:"",
+        description: "" 
     }
     render() {
 
@@ -36,8 +37,7 @@ class workAdder extends React.Component {
                                     this.props.addVisible(false)
                                     this.setState({ course: "" })
                                     this.setState({ description: "" })
-                                    console.log(this.state.course)
-                                    console.log(this.state.description)
+                                    this.props.addHandler(this.state.course, this.state.description)
                                 }}
                             >
                                 <Text>{"Add"}</Text>
