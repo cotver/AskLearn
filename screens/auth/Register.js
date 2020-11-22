@@ -22,7 +22,6 @@ const RegisterPage = (props) => {
         const isname = name.length >= 4;
         const ispass = password.length >= 8 && password.length <= 16;
         const isnpassc = password === passwordConfirmation;
-        console.log(isEmail)
         setEmailError("")
         setNameError("")
         setPasswordError("")
@@ -64,7 +63,6 @@ const RegisterPage = (props) => {
                         photoURL: "",
                         role:"Student"
                     });
-                    console.log(user.uid)
                 // Update the user's metadata on firebase
                 user.updateProfile({
                     displayName: name,
@@ -77,11 +75,6 @@ const RegisterPage = (props) => {
                 setFerror("Something went worng")
                 console.log(error)
             });
-    }
-
-    const LoginHandler = () => {
-
-        props.navigation.replace("LoginScreen")
     }
 
     return (
