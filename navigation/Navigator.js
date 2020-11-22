@@ -12,10 +12,11 @@ import { Ionicons } from "@expo/vector-icons";
 import Base from '../screens/auth/Base';
 import LoginPage from '../screens/auth/Login';
 import RegisterPage from '../screens/auth/Register';
-
+// import SettingPage from '../screens/SettingNav/setting';
 import courseScreen from '../screens/learn/Course';
 import subjectScreen from '../screens/learn/Subject';
 import Questions from '../screens/learn/Questions';
+
 import QuizScreen from '../screens/learn/QuizIndex';
 import AskScreen from '../screens/learn/Ask';
 import ProfileScreen from '../screens/editPro/Profile';
@@ -137,6 +138,11 @@ const ProfileNavigator = createStackNavigator(
     Profile: {screen: ProfileScreen},    
   },
 );
+// const SettingNavigator = createStackNavigator(
+//   {
+//     Setting: {screen: SettingPage},    
+//   },
+// );
 // const editProNavigator = createStackNavigator(
 //   {
 //     editPro: {screen: editProScreen},    
@@ -147,8 +153,9 @@ const ProfileNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
-    EditProfile: { screen: ProfileScreen },
-    Login : { screen: Base }
+    ChangePassword: { screen: ProfileScreen },
+    Login : { screen: Base },
+    // Setting: {screen: SettingPage},
     
     // editPro: { screen: editProScreen },
   },

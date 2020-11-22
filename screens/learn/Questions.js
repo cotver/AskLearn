@@ -33,7 +33,7 @@ export default class Questions extends React.Component {
   fetchQuestions = async () => {
     await this.setState({ loading: true });
     const response = await fetch(
-      'https://opentdb.com/api.php?amount=10&difficulty=medium'
+      'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy'
     );
     const questions = await response.json();
 
