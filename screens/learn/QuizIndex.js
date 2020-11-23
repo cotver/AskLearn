@@ -20,14 +20,13 @@ export default class Quiz extends React.Component {
           style={{ width: 200, height: 85 }}
         />
         <Button type="outline"
-        borderRi
         icon={
           <Icon
             name="play-circle"
             size={50}
             color="pink"
           />
-        }title="  Start Quiz" onPress={() => this.props.navigation.navigate('Questions')}>
+        }title="  Quiz คลายเครียด" onPress={() => this.props.navigation.navigate('Questions')}>
         </Button>
       </View>
       </NativeRouter>
