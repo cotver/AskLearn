@@ -40,15 +40,40 @@ class AskScreen extends React.Component {
             data = snapshotToArray(snapshot).filter(post =>
                 post.course == this.cId
 
-            ).reverse()
+            )
+                .reverse()
                 .map(post => ({
                     course: post.course,
                     user: post.user,
                     text: post.post,
                     image: post.image,
                     id: post.id,
-                }));
+                    like:false
+                }))
+            data.forEach(post => {
+                firebase.database().ref().child('users').once('value', (snapshot) => {
+                    snapshotToArray(snapshot).filter(users => {
+                        if (post.user == users.uid) {
+                            post.user = users.name
 
+                        }
+                    }
+
+                    )
+                })
+                let like = []
+            
+
+                firebase.database().ref().child('like').once('value', (snapshot) => {
+                    like = snapshotToArray(snapshot).filter(like =>
+                        like.user == this.state.uid && like.post == post.id
+                    )
+                    if (like.length > 0) {
+                        post.like = true
+                    }
+
+                });
+            });
             this.setState({
                 post: data,
                 isLoading: false,
@@ -138,9 +163,10 @@ class AskScreen extends React.Component {
                 id={item.id}
                 image={item.image}
                 post={item.text}
-                like={item.like}
                 user={item.user}
-
+                uid={this.state.uid}
+                post_id={item.id}
+                like = {item.like}
             />
         );
     };

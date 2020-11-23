@@ -2,11 +2,15 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, ScrollView, TextInput, Dimensions } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
+import firebase from '../../../config/Firebase';
+import { snapshotToArray } from '../../helper'
+
 
 class Post extends React.Component {
   state = {
     inputText: "",
     commentVisible: false,
+    like: this.props.like
   }
 
   image = this.props.image || undefined
@@ -34,6 +38,8 @@ class Post extends React.Component {
       date: "50m",
     },
   ]
+
+
   comVisible = (stats) => {
     this.setState({ commentVisible: stats })
   }
@@ -52,6 +58,34 @@ class Post extends React.Component {
         {this.image && <Image source={{ uri: this.image }} style={{ maxWidth: "100%", width: Dimensions.get('window').width, height: Dimensions.get('window').width - 50 }} />}
       </View>
     )
+  }
+
+  likeHandler = () => {
+    if (this.state.like) {
+      firebase.database().ref().child('like').once('value', (snapshot) => {
+        snapshot.forEach((like)=>{
+          if(like.val().post == this.props.post_id && like.val().user == this.props.uid){
+            firebase.database().ref().child('like').child(like.key).remove()
+          }
+          
+        })
+        
+    });
+    this.setState({ isLoading: false, like: false })
+    }
+    else {
+      this.setState({ isLoading: true, })
+      firebase.database().ref()
+        .child('like')
+        .push({
+          user: this.props.uid,
+          post: this.props.post_id,
+        }).then(() => {
+          console.log(this.props.uid)
+          this.setState({ isLoading: false, like: true })
+        }
+        );
+    }
   }
 
   render() {
@@ -74,11 +108,11 @@ class Post extends React.Component {
         </View>
         {this.renderpost(this.image, this.text)}
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={()=>this.likeHandler()}>
             <AntDesign
-              name={this.props.like ? "heart" : "hearto"}
+              name={this.state.like ? "heart" : "hearto"}
               size={24}
-              color={this.props.like ? "#ff5350" : "#AAA"}
+              color={this.state.like ? "#ff5350" : "black"}
             />
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => { this.comVisible(true) }}>
