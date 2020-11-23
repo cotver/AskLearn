@@ -1,15 +1,16 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, ScrollView, TextInput } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, ScrollView, TextInput, Dimensions } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
 
 class Post extends React.Component {
   state = {
-    inputText: ""
+    inputText: "",
+    commentVisible: false,
   }
 
-  image = this.props.type.image || undefined
-  text = this.props.type.text || undefined
+  image = this.props.image || undefined
+  text = this.props.post
 
   initData = [
     {
@@ -33,6 +34,9 @@ class Post extends React.Component {
       date: "50m",
     },
   ]
+  comVisible = (stats) => {
+    this.setState({ commentVisible: stats })
+  }
 
   renderItem = (item, index) => {
     return (<View key={index} style={styles.comment}>
@@ -42,17 +46,18 @@ class Post extends React.Component {
   };
 
   renderpost = (image, text) => {
-      return (
-        <View style={{ paddingVertical: 5 }}>
-          <Text>{text}</Text>
-          <Text></Text>
-        </View>
-      )
-    }
+    return (
+      <View style={{ paddingVertical: 5 }}>
+        <Text>{text}</Text>
+        {this.image && <Image source={{ uri: this.image }} style={{ maxWidth: "100%", width: Dimensions.get('window').width, height: Dimensions.get('window').width - 50 }} />}
+      </View>
+    )
+  }
 
   render() {
 
     return (
+
       <View style={styles.Container}>
         <View style={styles.box}>
           <View>
@@ -64,37 +69,33 @@ class Post extends React.Component {
           <View style={{ justifyContent: "center" }}>
             <View style={{ flexDirection: "row" }}>
               <Text style={styles.user}>{this.props.user}</Text>
-              <Text>{this.props.date}</Text>
             </View>
           </View>
         </View>
-
-        <View style={{ flex: 1, paddingVertical: 0 }}>
-          {this.renderpost(this.image, this.text)}
-          <View style={{ flex: 1, flexDirection: "row" }}>
-            <TouchableOpacity style={styles.button}>
-              <AntDesign
-                name={this.props.like ? "heart" : "hearto"}
-                size={24}
-                color={this.props.like ? "#ff5350" : "#AAA"}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => { this.props.comVisible(true) }}>
-              <AntDesign name="message1" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+        {this.renderpost(this.image, this.text)}
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.button}>
+            <AntDesign
+              name={this.props.like ? "heart" : "hearto"}
+              size={24}
+              color={this.props.like ? "#ff5350" : "#AAA"}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => { this.comVisible(true) }}>
+            <AntDesign name="message1" size={24} color="black" />
+          </TouchableOpacity>
         </View>
 
 
         <Modal
-          visible={this.props.commentVisible}
+          visible={this.state.commentVisible}
           animationType="slide"
-          onRequestClose={() => { this.props.comVisible(false) }}
+          onRequestClose={() => { this.comVisible(false) }}
         >
           <View style={styles.container1}>
             <TouchableOpacity
               style={styles.leftText}
-              onPress={() => { this.props.comVisible(false) }}
+              onPress={() => { this.comVisible(false) }}
             >
               <Text>{"Close"}</Text>
             </TouchableOpacity>
@@ -119,7 +120,6 @@ class Post extends React.Component {
 
 const styles = StyleSheet.create({
   Container: {
-    flex: 1,
     flexDirection: "column",
     marginBottom: 20,
     marginHorizontal: 7,

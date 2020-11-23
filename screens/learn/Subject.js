@@ -38,6 +38,7 @@ class subjectScreen extends React.Component {
 
     liveUpdate = () => {
         let data = []
+        this.setState({isLoading: true,})
         firebase.database().ref().child('Lessons').on('value', (snapshot) => {
             data = snapshotToArray(snapshot)
                 .filter(lesson => lesson.course === this.cId)
@@ -59,13 +60,16 @@ class subjectScreen extends React.Component {
 
 
     addHandler = (lesson, detail) => {
+        this.setState({isLoading: true,})
         firebase.database().ref()
             .child('Lessons')
             .push({
                 lesson: lesson,
                 detail: detail,
                 course: this.cId,
-            });
+            }).then(
+                this.setState({isLoading: false,})
+            );
     }
 
     changeVisible = (stats) => {
