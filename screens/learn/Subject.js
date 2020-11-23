@@ -27,6 +27,7 @@ class subjectScreen extends React.Component {
         description: "",
         addVisible: false,
         isLoading: true,
+        role: ""
     }
     cId = this.props.navigation.getParam("cId");
     cTitle = this.props.navigation.getParam("cTitle");
@@ -38,7 +39,27 @@ class subjectScreen extends React.Component {
 
     liveUpdate = () => {
         let data = []
-        this.setState({isLoading: true,})
+        this.setState({ isLoading: true, })
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ uid: user.uid })
+
+            }
+            let users = []
+            firebase.database().ref().child('users').once('value', (snapshot) => {
+                users = snapshotToArray(snapshot)
+                    .filter(user => user.uid == this.state.uid)
+
+                if (users.length > 0) {
+                    this.setState({
+                        role: users[0].role,
+                    })
+                }
+            });
+        });
+
+
         firebase.database().ref().child('Lessons').on('value', (snapshot) => {
             data = snapshotToArray(snapshot)
                 .filter(lesson => lesson.course === this.cId)
@@ -46,7 +67,7 @@ class subjectScreen extends React.Component {
                     lesson: lesson.lesson,
                     detail: lesson.detail,
                     id: lesson.id,
-                    course:lesson.course,
+                    course: lesson.course,
                 }));
 
             this.setState({
@@ -60,7 +81,7 @@ class subjectScreen extends React.Component {
 
 
     addHandler = (lesson, detail) => {
-        this.setState({isLoading: true,})
+        this.setState({ isLoading: true, })
         firebase.database().ref()
             .child('Lessons')
             .push({
@@ -68,7 +89,7 @@ class subjectScreen extends React.Component {
                 detail: detail,
                 course: this.cId,
             }).then(
-                this.setState({isLoading: false,})
+                this.setState({ isLoading: false, })
             );
     }
 
@@ -89,15 +110,26 @@ class subjectScreen extends React.Component {
         </View>
 
     )
+
+    teacher = (role) => {
+        console.log(role)
+        if (this.state.role == "Student") {
+            return <View style={styles.add}></View>;
+        }
+        else {
+            return <View style={styles.add}>
+                <Button title="add Work" onPress={() => this.changeVisible(true)} />
+            </View>
+        }
+    }
+
     render() {
 
 
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.head}>
-                    <View style={styles.add}>
-                        <Button title="add Work" onPress={() => this.changeVisible(true)} />
-                    </View>
+                    {this.teacher(this.state.role)}
                     <Text style={styles.Header}>{this.cTitle}</Text>
                 </View>
                 <AddWork

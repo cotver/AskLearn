@@ -21,17 +21,39 @@ class courseScreen extends React.Component {
         userId: "",
         description: "",
         addVisible: false,
-        isLoading:true,
+        isLoading: true,
+        role: "",
+        uid: ''
     }
 
     componentDidMount() {
-        LogBox.ignoreLogs(['Setting a timer',"Can't perform a React state update on an unmounted component"]);
+        LogBox.ignoreLogs(['Setting a timer', "Can't perform a React state update on an unmounted component"]);
         this.liveUpdate();
     }
 
     liveUpdate = () => {
         let data = []
-        this.setState({isLoading: true,})
+        this.setState({ isLoading: true, })
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ uid: user.uid })
+            }
+            let users = []
+            firebase.database().ref().child('users').once('value', (snapshot) => {
+                users = snapshotToArray(snapshot)
+                    .filter(user => user.uid == this.state.uid)
+
+                if (users.length > 0) {
+                    this.setState({
+                        role: users[0].role,
+                    })
+                }
+            });
+        });
+
+
+
         firebase.database().ref().child('courses').on('value', (snapshot) => {
             data = snapshotToArray(snapshot)
                 .map(course => ({
@@ -42,23 +64,35 @@ class courseScreen extends React.Component {
 
             this.setState({
                 courses: data,
-                isLoading:false,
+                isLoading: false,
             })
 
         });
     }
 
+    teacher = (role) => {
+        console.log(role)
+        if (role == "Student") {
+            return <View style={styles.add}></View>;
+        }
+        else {
+            return <View style={styles.add}>
+                <Button title="add Course" onPress={() => (this.changeVisible(true))} />
+            </View>
+        }
+    }
+
 
 
     addHandler = (name, description) => {
-        this.setState({isLoading: true,})
+        this.setState({ isLoading: true, })
         firebase.database().ref()
             .child('courses')
             .push({
                 name: name,
                 description: description,
             }).then(
-                this.setState({isLoading: false,})
+                this.setState({ isLoading: false, })
             );
 
     }
@@ -86,14 +120,14 @@ class courseScreen extends React.Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <View style={styles.add}>
-                    <Button title="add Course" onPress={() => (this.changeVisible(true))} />
-                </View>
+
+                {this.teacher(this.state.role)}
                 <AddCourse
                     visible={this.state.addVisible}
                     addVisible={this.changeVisible}
                     addHandler={this.addHandler}
                 />
+
                 <FlatList
                     data={this.state.courses}
                     renderItem={this.renderCourse}

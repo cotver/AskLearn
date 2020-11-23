@@ -76,6 +76,9 @@ const RegisterPage = (props) => {
                 console.log(error)
             });
     }
+    LoginHandler=()=>{
+        props.navigation.replace('LoginScreen');
+    }
 
     return (
         <ScrollView style={{ backgroundColor: 'white' }}>

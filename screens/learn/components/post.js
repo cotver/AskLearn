@@ -10,7 +10,8 @@ class Post extends React.Component {
   state = {
     inputText: "",
     commentVisible: false,
-    like: this.props.like
+    like: false,
+    comment: []
   }
 
   image = this.props.image || undefined
@@ -39,12 +40,44 @@ class Post extends React.Component {
     },
   ]
 
+  componentDidMount() {
+    this.liveUpdate();
+  }
+
+  liveUpdate = () => {
+
+    let comment = []
+
+    firebase.database().ref().child('comment').on('value', (snapshot) => {
+      comment = snapshotToArray(snapshot)
+      this.setState({
+        comment: comment
+      })
+    });
+
+    let like = []
+    firebase.database().ref().child('like').once('value', (snapshot) => {
+      like = snapshotToArray(snapshot).filter(like =>
+        like.user == this.props.uid && like.post == this.props.post_id
+      )
+      if (like.length > 0) {
+        this.setState({
+          like: true,
+        })
+      }
+    });
+
+
+
+  }
+
 
   comVisible = (stats) => {
     this.setState({ commentVisible: stats })
   }
 
   renderItem = (item, index) => {
+
     return (<View key={index} style={styles.comment}>
       <Text>{item.text}</Text>
     </View>
@@ -63,15 +96,15 @@ class Post extends React.Component {
   likeHandler = () => {
     if (this.state.like) {
       firebase.database().ref().child('like').once('value', (snapshot) => {
-        snapshot.forEach((like)=>{
-          if(like.val().post == this.props.post_id && like.val().user == this.props.uid){
+        snapshot.forEach((like) => {
+          if (like.val().post == this.props.post_id && like.val().user == this.props.uid) {
             firebase.database().ref().child('like').child(like.key).remove()
           }
-          
+
         })
-        
-    });
-    this.setState({ isLoading: false, like: false })
+
+      });
+      this.setState({ isLoading: false, like: false })
     }
     else {
       this.setState({ isLoading: true, })
@@ -81,11 +114,22 @@ class Post extends React.Component {
           user: this.props.uid,
           post: this.props.post_id,
         }).then(() => {
-          console.log(this.props.uid)
           this.setState({ isLoading: false, like: true })
         }
         );
     }
+  }
+  commentHandler = () => {
+    this.setState({ isLoading: true, })
+    firebase.database().ref()
+      .child('comment')
+      .push({
+        text: this.state.inputText,
+        post: this.props.post_id,
+      }).then(() => {
+        this.setState({ isLoading: false })
+      }
+      );
   }
 
   render() {
@@ -108,7 +152,7 @@ class Post extends React.Component {
         </View>
         {this.renderpost(this.image, this.text)}
         <View style={{ flexDirection: "row" }}>
-          <TouchableOpacity style={styles.button} onPress={()=>this.likeHandler()}>
+          <TouchableOpacity style={styles.button} onPress={() => this.likeHandler()}>
             <AntDesign
               name={this.state.like ? "heart" : "hearto"}
               size={24}
@@ -142,10 +186,10 @@ class Post extends React.Component {
               placeholder={"Type something"}
               underlineColorAndroid="transparent"
               onChangeText={(input) => { this.setState({ inputText: input }) }}
-              onSubmitEditing={(input) => { console.log(this.state.inputText), this.setState({ inputText: "" }) }}
+              onSubmitEditing={(input) => {  this.setState({ inputText: "" }), this.commentHandler() }}
             />
           </View>
-          <ScrollView>{this.initData.map(this.renderItem)}</ScrollView>
+          <ScrollView>{this.state.comment.filter(comment => comment.post == this.props.post_id).map(this.renderItem)}</ScrollView>
         </Modal>
       </View>
     );

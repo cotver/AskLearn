@@ -40,7 +40,7 @@ const LoginPage = (props) => {
             .signInWithEmailAndPassword(email, password)
             .then(() => {
                 setisLoading(false);
-                props.navigation.navigate('Learn');
+                props.navigation.replace('Learn');
             })
             .catch((error) => {
                 setFerror("The Email or password is invalid")

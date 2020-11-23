@@ -48,10 +48,10 @@ class AskScreen extends React.Component {
                     text: post.post,
                     image: post.image,
                     id: post.id,
-                    like:false
+                    like: false
                 }))
             data.forEach(post => {
-                firebase.database().ref().child('users').once('value', (snapshot) => {
+                firebase.database().ref().child('users').on('value', (snapshot) => {
                     snapshotToArray(snapshot).filter(users => {
                         if (post.user == users.uid) {
                             post.user = users.name
@@ -61,18 +61,7 @@ class AskScreen extends React.Component {
 
                     )
                 })
-                let like = []
-            
 
-                firebase.database().ref().child('like').once('value', (snapshot) => {
-                    like = snapshotToArray(snapshot).filter(like =>
-                        like.user == this.state.uid && like.post == post.id
-                    )
-                    if (like.length > 0) {
-                        post.like = true
-                    }
-
-                });
             });
             this.setState({
                 post: data,
@@ -166,7 +155,6 @@ class AskScreen extends React.Component {
                 user={item.user}
                 uid={this.state.uid}
                 post_id={item.id}
-                like = {item.like}
             />
         );
     };
