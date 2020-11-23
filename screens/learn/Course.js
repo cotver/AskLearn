@@ -25,12 +25,13 @@ class courseScreen extends React.Component {
     }
 
     componentDidMount() {
-        LogBox.ignoreLogs(['Setting a timer']);
+        LogBox.ignoreLogs(['Setting a timer',"Can't perform a React state update on an unmounted component"]);
         this.liveUpdate();
     }
 
     liveUpdate = () => {
         let data = []
+        this.setState({isLoading: true,})
         firebase.database().ref().child('courses').on('value', (snapshot) => {
             data = snapshotToArray(snapshot)
                 .map(course => ({
@@ -50,12 +51,15 @@ class courseScreen extends React.Component {
 
 
     addHandler = (name, description) => {
+        this.setState({isLoading: true,})
         firebase.database().ref()
             .child('courses')
             .push({
                 name: name,
                 description: description,
-            });
+            }).then(
+                this.setState({isLoading: false,})
+            );
 
     }
 
