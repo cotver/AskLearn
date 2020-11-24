@@ -110,7 +110,7 @@ export default class TestScreen extends React.Component {
       return <Avatar
         size={180}
         rounded
-        icon={{ name: 'user', type: 'font-awesome' }}
+        icon={{ name: 'user-edit', type: 'font-awesome' }}
         onPress={() => {this.pickImage()}}
         activeOpacity={0.7}
         containerStyle={{ flex: 2, marginLeft: 60 }} />

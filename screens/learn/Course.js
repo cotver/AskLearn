@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'center',
-        borderColor: 'black',
-        borderWidth: 1,
+        borderColor: '#DB7093',
+        borderWidth: 2,
         padding: 10,
         borderRadius: 10
     },

@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignContent: 'center',
         justifyContent: 'flex-start',
-        borderColor: 'black',
-        borderWidth: 1,
+        borderColor: '#D02090',
+        borderWidth: 2,
         padding: 10,
         borderRadius: 10
     },

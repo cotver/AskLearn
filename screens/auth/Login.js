@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: 20,
         paddingVertical: 10,
+        borderRadius: 10,
 
     },
     logo: {
@@ -126,18 +127,21 @@ const styles = StyleSheet.create({
         flex: 3,
         flexDirection: 'column-reverse',
         width: '100%',
-        marginBottom: '25%',
+        marginBottom: '5%',
+        borderRadius: 20,
     },
     buttonRegis: {
         flex: 3,
         width: '100%',
-        marginBottom: '25%',
+        marginBottom: '10%',
+        borderRadius: 20,
     },
     inputArea: {
         flex: 3,
         width: '100%',
         flexDirection: 'column',
         alignItems: 'center',
+        borderRadius: 5,
     },
     button: {
         backgroundColor: '#43B8D2',

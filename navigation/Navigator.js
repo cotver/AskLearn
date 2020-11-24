@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Base from '../screens/auth/Base';
 import LoginPage from '../screens/auth/Login';
 import RegisterPage from '../screens/auth/Register';
-// import SettingPage from '../screens/SettingNav/setting';
+import HelpPage from '../screens/help';
 import courseScreen from '../screens/learn/Course';
 import subjectScreen from '../screens/learn/Subject';
 import Questions from '../screens/learn/Questions';
@@ -43,7 +43,7 @@ const AskLearn = createMaterialTopTabNavigator({
       activeTintColor: 'white',
       style: {
         height: 56,
-        backgroundColor: 'orange',
+        backgroundColor: '#DB7093',
         shadowColor: 'rgba(0, 0, 0, 0.24)',
         shadowOffset: {
           width: 0,
@@ -138,11 +138,11 @@ const ProfileNavigator = createStackNavigator(
 );
 
 
-// const SettingNavigator = createStackNavigator(
-//   {
-//     Setting: {screen: SettingPage},    
-//   },
-// );
+const HelpNavigator = createStackNavigator(
+  {
+    Help: {screen: HelpPage},    
+  },
+);
 // const editProNavigator = createStackNavigator(
 //   {
 //     editPro: {screen: editProScreen},    
@@ -154,7 +154,7 @@ const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
     ChangePassword: { screen: ProfileScreen },
-    // Setting: {screen: SettingPage},
+    Help: {screen: HelpPage},
     
     // editPro: { screen: editProScreen },
   },

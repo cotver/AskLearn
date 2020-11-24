@@ -158,9 +158,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: '80%',
         textAlign: 'center',
-        marginBottom: '2%',
+        
         fontSize: 20,
         paddingVertical: 10,
+        borderRadius: 10,
 
     },
     logo: {
@@ -177,14 +178,16 @@ const styles = StyleSheet.create({
         flex: 3,
         flexDirection: 'column-reverse',
         width: '100%',
-        marginBottom: '25%',
+        marginTop: '5%',
+        marginBottom: '5%',
     },
     inputArea: {
         flex: 3,
         width: '100%',
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: '5%'
+        marginBottom: '5%',
+        borderRadius: 10,
     },
     button: {
         backgroundColor: '#43B8D2',
@@ -206,7 +209,7 @@ const styles = StyleSheet.create({
     buttonRegis: {
         flex: 3,
         width: '100%',
-        marginBottom: '25%',
+        marginBottom: '5%',
     },
     errortext:{
         color:"red",
