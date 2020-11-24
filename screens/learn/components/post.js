@@ -135,7 +135,7 @@ class Post extends React.Component {
   userPic = () =>{
     if(this.props.userPic != ""){
         return <Image
-        source={{uri:this.state.userPic}}
+        source={{uri:this.props.userPic}}
         style={styles.profile}
     />
     }

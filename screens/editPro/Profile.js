@@ -1,12 +1,23 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TextInput, Image, Alert, } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, Image, Alert,TouchableOpacity } from 'react-native';
 import { Avatar, Button } from "react-native-elements";
-import * as firebase from 'firebase';
+import firebase from '../../config/Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { HeaderBackground } from 'react-navigation-stack';
+import Spinner from 'react-native-loading-spinner-overlay';
+import * as ImagePicker from 'expo-image-picker';
+
+import { snapshotToArray } from '../helper'
 
 export default class TestScreen extends React.Component {
+  state = {
+    user_id: '',
+    isLoading: true,
+    uid: "",
+    userPic: "",
+    imageUrl:""
+  }
   static navigationOptions = {
     header: null,
   };
@@ -18,6 +29,92 @@ export default class TestScreen extends React.Component {
       newPassword: "",
       newEmail: "",
     };
+  }
+  componentDidMount() {
+    this.liveUpdate();
+  }
+
+  liveUpdate = () => {
+    let data = []
+    this.setState({ isLoading: true, })
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ uid: user.uid })
+      }
+      let users = []
+      firebase.database().ref().child('users').on('value', (snapshot) => {
+        users = snapshotToArray(snapshot)
+          .filter(user => user.uid == this.state.uid)
+
+        if (users.length > 0) {
+          this.setState({
+            user_id: users[0].id,
+            userPic: users[0].photoURL,
+            isLoading: false,
+          })
+        }
+      });
+    });
+  }
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 1,
+    });
+
+    if (!result.cancelled) {
+        this.uploadImage(result.uri)
+    }
+};
+  uploadImage = async (uri) => {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+      const uniqid = () => Math.random().toString(36).substr(2, 9);
+      const ext = uri.split('.').pop(); // Extract image extension
+      const filename = `${uniqid()}.${ext}`;
+
+      var ref = firebase.storage().ref().child("users/" + filename);
+      ref.put(blob).then(() => {
+        ref.getDownloadURL().then((url) => {
+          this.setState({ imageUrl: url })
+          firebase.database().ref()
+            .child('users')
+            .child(this.state.user_id)
+            .update({
+              photoURL: this.state.imageUrl,
+            }).then(() => {
+              this.setState({ isLoading: false, imageUrl: '' })
+            }
+            );
+        })
+      })
+    }
+    catch (error) {
+        console.log(error)
+    }
+
+    return;
+  }
+
+  userpic = () => {
+    if (this.state.userPic != "") {
+      return <TouchableOpacity onPress={()=>this.pickImage()} style={{flex: 2, marginLeft: 60}}>
+        <Image source={{ uri: this.state.userPic }} style={styles.image} resizeMode="center" />
+      </TouchableOpacity>
+    }
+    else {
+      return <Avatar
+        size={180}
+        rounded
+        icon={{ name: 'user', type: 'font-awesome' }}
+        onPress={() => {this.pickImage(), console.log("Works!"), console.log(this.state.uid), console.log(this.state.user_id) }}
+        activeOpacity={0.7}
+        containerStyle={{ flex: 2, marginLeft: 60 }} />
+    }
   }
 
   // Occurs when signout is pressed...
@@ -36,16 +133,16 @@ export default class TestScreen extends React.Component {
   onChangePasswordPress = () => {
     this.reauthenticate(this.state.currentPassword).then(() => {
       var user = firebase.auth().currentUser;
-      user.updatePassword(this.state.newPassword).then(() =>  {
+      user.updatePassword(this.state.newPassword).then(() => {
         Alert.alert("Password was changed");
       }).catch((error) => { console.log(error.message); });
     }).catch((error) => { console.log(error.message) });
   }
 
-  onBackToHomePress = () =>{
+  onBackToHomePress = () => {
     var navActions = StackActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({routeName: "Learn"})]
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: "Learn" })]
     });
     this.props.navigation.dispatch(navActions);
   }
@@ -61,85 +158,85 @@ export default class TestScreen extends React.Component {
   }
   render() {
     return (
-      <ScrollView style={{flex: 1, flexDirection: "column"}}>
-          <View style={styles.container}>
+      <ScrollView style={{ flex: 1, flexDirection: "column" }}>
+        <View style={styles.container}>
           <View style={styles.imgprofile}>
-          <Image
-          source={require("../../assets/splash.png")}
-          style={{ width: 250, height: 135 }}
-        /></View>
-          <Avatar 
-            size={180}
-            rounded
-            icon={{name: 'user', type: 'font-awesome'}}
-            onPress={() => console.log("Works!")}
-            activeOpacity={0.7}
-            containerStyle={{flex: 2, marginLeft: 60}}/>
-              {/* <Image source={require("../../assets/pro.jpg")} style={styles.image} resizeMode="center"></Image> */}
-              {/* </View> */}
-        {/* <Button title="Sign out" onPress={this.onSignoutPress} /> */}
+            <Image
+              source={require("../../assets/splash.png")}
+              style={{ width: 250, height: 135 }}
+            /></View>
+          {this.userpic()}
+          {/* <Image source={require("../../assets/pro.jpg")} style={styles.image} resizeMode="center"></Image> */}
+          {/* </View> */}
+          {/* <Button title="Sign out" onPress={this.onSignoutPress} /> */}
 
-        <TextInput style={styles.textInput} value={this.state.currentPassword}
-          placeholder="Current Password" autoCapitalize="none" secureTextEntry={true}
-          onChangeText={(text) => { this.setState({currentPassword: text}) }}
-        />
+          <TextInput style={styles.textInput} value={this.state.currentPassword}
+            placeholder="Current Password" autoCapitalize="none" secureTextEntry={true}
+            onChangeText={(text) => { this.setState({ currentPassword: text }) }}
+          />
 
-        <TextInput style={styles.textInput} value={this.state.newPassword}
-          placeholder="New Password" autoCapitalize="none" secureTextEntry={true}
-          onChangeText={(text) => { this.setState({newPassword: text}) }}
-        />
-        <View style={{ padding: 15 }}>
-        <Button type="outline"
-        icon={
-          <Icon
-            name="save"
-            size={30}
-            color="pink"/>} title=" Password" onPress={this.onChangePasswordPress} />
+          <TextInput style={styles.textInput} value={this.state.newPassword}
+            placeholder="New Password" autoCapitalize="none" secureTextEntry={true}
+            onChangeText={(text) => { this.setState({ newPassword: text }) }}
+          />
+          <View style={{ padding: 15 }}>
+            <Button type="outline"
+              icon={
+                <Icon
+                  name="save"
+                  size={30}
+                  color="pink" />} title=" Password" onPress={this.onChangePasswordPress} />
+          </View>
+          <View style={{ padding: 60 }}>
+            <Button type="outline"
+              icon={
+                <Icon
+                  name="home"
+                  size={30}
+                  color="pink" />} title=" " onPress={this.onBackToHomePress} /></View>
         </View>
-        <View style={{ padding: 60}}>
-        <Button type="outline"
-        icon={
-          <Icon
-            name="home"
-            size={30}
-            color="pink"/>} title=" " onPress={this.onBackToHomePress} /></View>
-        </View>
+        <Spinner visible={this.state.isLoading} />
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-    container:{
-        alignSelf: "center",
-        
-    },
-    text: { 
-        color: "white", 
-        fontWeight: "bold", 
-        textAlign: "center", 
-        fontSize: 20, },
-  
-    textInput: { 
-        borderRadius:10,
-        borderWidth:1, 
-        borderColor:"gray", 
-        marginVertical: 15, 
-        padding:10, 
-        width:300,
-        height:40, 
-        alignSelf: "stretch", 
-        fontSize: 18, },
-    imgprofile: {
-        alignContent:"center",
-        marginLeft:45,
-        top: 100
-    }
-    // image: {
-    //     flex: 1,
-    //     height: undefined,
-    //     width: undefined
-    //     },
+  container: {
+    alignSelf: "center",
+
+  },
+  text: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 20,
+  },
+
+  textInput: {
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "gray",
+    marginVertical: 15,
+    padding: 10,
+    width: 300,
+    height: 40,
+    alignSelf: "stretch",
+    fontSize: 18,
+  },
+  imgprofile: {
+    alignContent: "center",
+    marginLeft: 45,
+    top: 100
+  },
+  image: {
+    flex: 1,
+    height: 180,
+    width: 180,
+    resizeMode: "cover",
+    borderRadius: 100,
+    backgroundColor: "#FF5350",
+  },
 
 });
 
@@ -219,21 +316,21 @@ const styles = StyleSheet.create({
 //                     <View style={styles.imgprofile}>
 //                         <Image source={require("../../assets/pro.jpg")} style={styles.image} resizeMode="center"></Image>
 //                     </View>
-                    
+
 //                     {/* <View style={styles.active}></View> */}
-                   
+
 //                     <TouchableOpacity style={styles.add}
 //       onPress={() => Alert.alert('เพิ่มรูปยังไง')}> 
 //         <Ionicons name="ios-add" size={25} color="pink"></Ionicons>
 //     </TouchableOpacity> 
-                        
-                    
+
+
 //                 </View>
 //                 <SafeAreaView style={styles.container}>
 //                 <ScrollView>
 //               <Text style={styles.text_footer}>ชื่อ-นามสกุล</Text>
 //               <View style={styles.action}>
-                  
+
 //                   <AntDesign name="user" size={25} color="#fff" />
 //                   <TextInput 
 //                       placeholder="แก้ไขชื่อ-นามสกุล"
@@ -253,11 +350,11 @@ const styles = StyleSheet.create({
 //                   </Animatable.View>
 //                   : null}
 //               </View>
-  
+
 //               <Text style={[styles.text_footer, {
 //                   marginTop: 35
 //               }]}>email</Text>
-           
+
 //               <View style={styles.action}>
 //                   <AntDesign name="mail" size={25} color="#fff" />
 //                   <TextInput 
@@ -278,22 +375,22 @@ const styles = StyleSheet.create({
 //                   </Animatable.View>
 //                   : null}
 //               </View>
-    
-             
-             
-  
-             
-             
+
+
+
+
+
+
 //               <View style={styles.button}>
 //                   <TouchableOpacity
 //                       style={[styles.signIn,{backgroundColor: "orange"}]}
 //                       onPress={() => {}}>
-                 
+
 //                       <Text style={[{color:'#fff'}]}>บันทึก</Text>
-                  
+
 //                   </TouchableOpacity>
-  
-              
+
+
 //               </View>
 //               </ScrollView>
 //               </SafeAreaView>
