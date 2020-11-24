@@ -53,7 +53,7 @@ class workAdder extends React.Component {
                                 placeholder={"Title"}
                                 underlineColorAndroid="transparent"
                                 onChangeText={(input) => { this.setState({ course: input }) }}
-                                onSubmitEditing={() => { console.log(this.state.course), this.setState({ course: "" }) }}
+                                onSubmitEditing={() => {  this.setState({ course: "" }) }}
                             />
                         </View>
                         <View style={styles.descriptionContainer}>
@@ -64,7 +64,7 @@ class workAdder extends React.Component {
                                 placeholder={"Description"}
                                 underlineColorAndroid="transparent"
                                 onChangeText={(input) => { this.setState({ description: input }) }}
-                                onSubmitEditing={() => { console.log(this.state.description), this.setState({ description: "" }) }}
+                                onSubmitEditing={() => {this.setState({ description: "" }) }}
                             />
                         </View>
                     </ScrollView>

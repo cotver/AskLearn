@@ -111,7 +111,7 @@ export default class TestScreen extends React.Component {
         size={180}
         rounded
         icon={{ name: 'user', type: 'font-awesome' }}
-        onPress={() => {this.pickImage(), console.log("Works!"), console.log(this.state.uid), console.log(this.state.user_id) }}
+        onPress={() => {this.pickImage()}}
         activeOpacity={0.7}
         containerStyle={{ flex: 2, marginLeft: 60 }} />
     }

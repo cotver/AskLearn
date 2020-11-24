@@ -86,7 +86,7 @@ class AskScreen extends React.Component {
     }
 
     userPic = () =>{
-        console.log(this.state.userPic)
+    
         if(this.state.userPic != ""){
             return <Image
             source={{uri:this.state.userPic}}
