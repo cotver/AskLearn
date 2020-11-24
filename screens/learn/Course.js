@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image, Button, LogB
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import { Ionicons } from "@expo/vector-icons";
 import Spinner from 'react-native-loading-spinner-overlay';
+import { StackActions } from '@react-navigation/native';
+import { NavigationActions } from 'react-navigation';
 
 import { COURSE } from '../../data/data-dummy'
 
@@ -23,7 +25,8 @@ class courseScreen extends React.Component {
         addVisible: false,
         isLoading: true,
         role: "",
-        uid: ''
+        uid: '',
+        back: this.props
     }
 
     componentDidMount() {
@@ -75,12 +78,12 @@ class courseScreen extends React.Component {
         if (role == "Student") {
             return <View style={styles.add}></View>;
         }
-        else if(role == "Teacher"){
+        else if (role == "Teacher") {
             return <View style={styles.add}>
                 <Button title="add Work" onPress={() => this.changeVisible(true)} />
             </View>
         }
-        else{
+        else {
             return <View style={styles.add}></View>;
         }
     }
@@ -103,7 +106,9 @@ class courseScreen extends React.Component {
     changeVisible = (stats) => {
         this.setState({ addVisible: stats })
     }
-
+    OutVisible = (stats) => {
+        this.setState({ outVisible: stats })
+    }
 
     renderCourse = (itemData) => (
 
@@ -161,20 +166,7 @@ courseScreen.navigationOptions = (navigationData) => {
                 />
             </HeaderButtons>
         ),
-        headerRight: () => (
-            <HeaderButtons>
-                <Item
-                    title='Menu'
-                    IconComponent={Ionicons}
-                    iconSize={30}
-                    iconName='ios-notifications-outline'
-                    color='gray' //{isnotification?'red' :'gray'}
-                //onPress = {()=>{
-                //  
-                //}}
-                />
-            </HeaderButtons>
-        ),
+
     };
 };
 const styles = StyleSheet.create({

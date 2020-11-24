@@ -68,20 +68,6 @@ const AskLearnNavigator = createStackNavigator(
 
         headerTitle: () =>  (<Image style={{width:150, height:50}} source={require('../assets/icon.png')}/>),
 
-        headerRight: () => (
-          <HeaderButtons>
-            <Item
-              title='Menu'
-              IconComponent={Ionicons}
-              iconSize={30}
-              iconName='ios-notifications-outline'
-              color='gray' //{isnotification?'red' :'gray'}
-            //onPress = {()=>{
-            //  
-            //}}
-            />
-          </HeaderButtons>
-        ),
       },
     },
     QuizScreen: { screen: QuizScreen,
@@ -91,7 +77,7 @@ const AskLearnNavigator = createStackNavigator(
     },
     Questions: {
       screen: Questions,
-    }
+    },
   },
   {
     defaultNavigationOptions: {
@@ -154,7 +140,6 @@ const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
     ChangePassword: { screen: ProfileScreen },
-    Login : { screen: Base },
     // Setting: {screen: SettingPage},
     
     // editPro: { screen: editProScreen },
@@ -178,30 +163,6 @@ const AuthenNavigator = createStackNavigator(
     },
   }
 );
-
-
-
-//const FavNavigator = createStackNavigator(
-//  {
-//    Favorites: {screen: FavoritesScreen},
-//    MealDetail: {screen: MealDetailScreen}, 
-//  },
-//  {
-//    defaultNavigationOptions: {
-//      headerStyle: { backgroundColor: "#4a148c", },
-//      headerTintColor: "white",
-//    }
-//  },
-//  );
-
-
-
-//const FiltersNavigator = createStackNavigator(
-//  {
-//    Filters: {screen: FiltersScreen},    
-//  },
-//);
-
 
 
 
