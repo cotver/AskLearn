@@ -132,6 +132,21 @@ class Post extends React.Component {
       );
   }
 
+  userPic = () =>{
+    if(this.props.userPic != ""){
+        return <Image
+        source={{uri:this.state.userPic}}
+        style={styles.profile}
+    />
+    }
+    else{
+        return <Image
+        source={require("../../../assets/icon.png")}
+        style={styles.profile}
+    />
+    }
+}
+
   render() {
 
     return (
@@ -139,10 +154,7 @@ class Post extends React.Component {
       <View style={styles.Container}>
         <View style={styles.box}>
           <View>
-            <Image
-              source={require("../../../assets/icon.png")}
-              style={styles.profile}
-            />
+            {this.userPic()}
           </View>
           <View style={{ justifyContent: "center" }}>
             <View style={{ flexDirection: "row" }}>

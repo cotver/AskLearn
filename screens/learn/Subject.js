@@ -116,10 +116,13 @@ class subjectScreen extends React.Component {
         if (this.state.role == "Student") {
             return <View style={styles.add}></View>;
         }
-        else {
+        else if(this.state.role == "Teacher"){
             return <View style={styles.add}>
                 <Button title="add Work" onPress={() => this.changeVisible(true)} />
             </View>
+        }
+        else{
+            return <View style={styles.add}></View>;
         }
     }
 

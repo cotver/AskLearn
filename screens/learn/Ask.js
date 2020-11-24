@@ -19,6 +19,7 @@ class AskScreen extends React.Component {
         image: null,
         imageUrl: '',
         isLoading: true,
+        userPic: ""
     }
     cId = this.props.navigation.getParam("cId");
 
@@ -33,6 +34,17 @@ class AskScreen extends React.Component {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ uid: user.uid })
+                let users = []
+                firebase.database().ref().child('users').once('value', (snapshot) => {
+                    users = snapshotToArray(snapshot)
+                        .filter(user => user.uid == this.state.uid)
+
+                    if (users.length > 0) {
+                        this.setState({
+                            userPic: users[0].photoURL,
+                        })
+                    }
+                });
             }
         });
 
@@ -48,14 +60,15 @@ class AskScreen extends React.Component {
                     text: post.post,
                     image: post.image,
                     id: post.id,
-                    like: false
+                    like: false,
+                    userPic:""
                 }))
             data.forEach(post => {
                 firebase.database().ref().child('users').on('value', (snapshot) => {
                     snapshotToArray(snapshot).filter(users => {
                         if (post.user == users.uid) {
                             post.user = users.name
-
+                            post.userPic = users.photoURL
                         }
                     }
 
@@ -70,6 +83,22 @@ class AskScreen extends React.Component {
 
 
         });
+    }
+
+    userPic = () =>{
+        console.log(this.state.userPic)
+        if(this.state.userPic != ""){
+            return <Image
+            source={{uri:this.state.userPic}}
+            style={styles.profile}
+        />
+        }
+        else{
+            return <Image
+            source={require("../../assets/icon.png")}
+            style={styles.profile}
+        />
+        }
     }
 
     pickImage = async () => {
@@ -155,6 +184,7 @@ class AskScreen extends React.Component {
                 user={item.user}
                 uid={this.state.uid}
                 post_id={item.id}
+                userPic = {item.userPic}
             />
         );
     };
@@ -202,10 +232,7 @@ class AskScreen extends React.Component {
 
                 </Modal>
                 <View style={styles.box}>
-                    <Image
-                        source={require("../../assets/icon.png")}
-                        style={styles.profile}
-                    />
+                    {this.userPic()}
                     <TouchableOpacity
                         style={styles.input}
                         onPress={() => {
