@@ -112,7 +112,6 @@ class subjectScreen extends React.Component {
     )
 
     teacher = (role) => {
-        console.log(role)
         if (this.state.role == "Student") {
             return <View style={styles.add}></View>;
         }

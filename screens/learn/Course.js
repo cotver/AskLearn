@@ -26,7 +26,6 @@ class courseScreen extends React.Component {
         isLoading: true,
         role: "",
         uid: '',
-        back: this.props
     }
 
     componentDidMount() {
@@ -74,7 +73,6 @@ class courseScreen extends React.Component {
     }
 
     teacher = (role) => {
-        console.log(role)
         if (role == "Student") {
             return <View style={styles.add}></View>;
         }
@@ -105,9 +103,6 @@ class courseScreen extends React.Component {
 
     changeVisible = (stats) => {
         this.setState({ addVisible: stats })
-    }
-    OutVisible = (stats) => {
-        this.setState({ outVisible: stats })
     }
 
     renderCourse = (itemData) => (

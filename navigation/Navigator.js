@@ -20,6 +20,7 @@ import Questions from '../screens/learn/Questions';
 import QuizScreen from '../screens/learn/QuizIndex';
 import AskScreen from '../screens/learn/Ask';
 import ProfileScreen from '../screens/editPro/Profile';
+import PeopleScreen from '../screens/people';
 // import editProScreen from '../screens/editPro/edit';
 
 
@@ -87,6 +88,17 @@ const AskLearnNavigator = createStackNavigator(
   }
 );
 
+const PScreen = createStackNavigator(
+  {
+    Profile: {screen: PeopleScreen},    
+  },
+  {
+    defaultNavigationOptions: {
+      headerStyle: { backgroundColor: "pink", },
+      headerTintColor: "black",
+    },
+  }
+);
 
 
 const bottomNavigator = createBottomTabNavigator(
@@ -108,7 +120,7 @@ const bottomNavigator = createBottomTabNavigator(
       },
     },
     People: {
-      screen: AskLearnNavigator,
+      screen: PScreen,
       navigationOptions: {
         tabBarIcon: (tabInfo) => {
           return (<Ionicons name="md-people" size={30} color="black" />);
@@ -124,6 +136,8 @@ const ProfileNavigator = createStackNavigator(
     Profile: {screen: ProfileScreen},    
   },
 );
+
+
 // const SettingNavigator = createStackNavigator(
 //   {
 //     Setting: {screen: SettingPage},    
