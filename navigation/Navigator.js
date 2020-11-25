@@ -167,7 +167,7 @@ const HelpNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
-    ChangePassword: { screen: ProfileNavigator },
+    ChangePassword: { screen: ProfileScreen },
     Help: {screen: HelpNavigator},
     
     // editPro: { screen: editProScreen },

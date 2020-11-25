@@ -20,7 +20,7 @@ export default class TestScreen extends React.Component {
     imageUrl: ""
   }
   static navigationOptions = {
-    header: null,
+    headerShown: null,
   };
 
   constructor(props) {
