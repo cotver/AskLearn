@@ -21,6 +21,7 @@ import QuizScreen from '../screens/learn/QuizIndex';
 import AskScreen from '../screens/learn/Ask';
 import ProfileScreen from '../screens/editPro/Profile';
 import PeopleScreen from '../screens/people';
+// import ChatScreen from '../screens/chat';
 // import editProScreen from '../screens/editPro/edit';
 
 
@@ -100,6 +101,19 @@ const PScreen = createStackNavigator(
   }
 );
 
+// const ChatNavigator = createStackNavigator(
+//   {
+//     Chat: { screen: ChatScreen },    
+//   },
+//   {
+//     defaultNavigationOptions: {
+//       headerStyle: { backgroundColor: "pink", },
+//       headerTintColor: "black",
+//     },
+//   }
+// );
+
+
 
 const bottomNavigator = createBottomTabNavigator(
   {
@@ -153,8 +167,8 @@ const HelpNavigator = createStackNavigator(
 const MainNavigator = createDrawerNavigator(
   {
     AskLearn: { screen: bottomNavigator },
-    ChangePassword: { screen: ProfileScreen },
-    Help: {screen: HelpPage},
+    ChangePassword: { screen: ProfileNavigator },
+    Help: {screen: HelpNavigator},
     
     // editPro: { screen: editProScreen },
   },

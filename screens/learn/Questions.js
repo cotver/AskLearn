@@ -4,7 +4,6 @@ import {
   Text,
   ActivityIndicator,
   StyleSheet,
-  Picker,
   Button
 } from "react-native";
 import { Link } from "react-router-native";
@@ -19,8 +18,8 @@ export default class Questions extends React.Component {
       questions: [],
 
       current: 0,
-      correctScore: 5,
-      totalScore: 50,
+      correctScore: 1,
+      totalScore: 10,
 
       results: {
         score: 0,
@@ -68,7 +67,7 @@ export default class Questions extends React.Component {
     const isCorrect = question.correct_answer === answer;
     const results = { ...this.state.results };
 
-    results.score = isCorrect ? results.score + 5 : results.score;
+    results.score = isCorrect ? results.score + 1 : results.score;
     results.correctAnswers = isCorrect
       ? results.correctAnswers + 1
       : results.correctAnswers;
@@ -116,7 +115,7 @@ export default class Questions extends React.Component {
               <Text>
                 Incorrect Answers: {10 - this.state.results.correctAnswers}
               </Text>
-              <Text>Total Score: {50}</Text>
+              <Text>Total Score: {10}</Text>
               <Text>Obtained Score: {this.state.results.score}</Text>
 
               <Button title="Restart Quiz" onPress={this.reset} />
