@@ -5,7 +5,7 @@ import { StyleSheet, LogBox } from 'react-native';
 import AuthenNavigator from './navigation/Navigator'
 
 export default function App() {
-  LogBox.ignoreLogs(['Setting a timer',"Can't perform a React state update on an unmounted component"]);
+  LogBox.ignoreLogs(['Setting a timer',"Can't perform a React state update on an unmounted component","componentWillReceiveProps has been renamed, and is not recommended for use"]);
   return (
       <AuthenNavigator/>
   );
