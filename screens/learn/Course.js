@@ -78,7 +78,7 @@ class courseScreen extends React.Component {
         }
         else if (role == "Teacher") {
             return <View style={styles.add}>
-                <Button title="add Work" onPress={() => this.changeVisible(true)} />
+                <Button title="add Course" onPress={() => this.changeVisible(true)} />
             </View>
         }
         else {

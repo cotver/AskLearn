@@ -20,6 +20,7 @@ const LoginPage = (props) => {
         setFerror("")
         if (!isEmail) {
             setEmailError('Your Email is invalid')
+            setisLoading(false)
             return false;
         }
         return true;

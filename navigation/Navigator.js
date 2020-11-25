@@ -125,14 +125,6 @@ const bottomNavigator = createBottomTabNavigator(
         },
       },
     },
-    Chat: {
-      screen: AskLearnNavigator,
-      navigationOptions: {
-        tabBarIcon: (tabInfo) => {
-          return (<Ionicons name="ios-chatbubbles" size={30} color="black" />);
-        },
-      },
-    },
     People: {
       screen: PScreen,
       navigationOptions: {

@@ -103,7 +103,7 @@ class subjectScreen extends React.Component {
             <View style={styles.row}>
                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{itemData.item.lesson}</Text>
                 <View style={{ flexDirection: 'row' }}>
-                    <Text numberOfLines={2} style={{ fontSize: 10, fontWeight: 'bold' }}>{itemData.item.detail}</Text>
+                    <Text  style={{ fontSize: 10, fontWeight: 'bold' }}>{itemData.item.detail}</Text>
                 </View>
             </View>
 
