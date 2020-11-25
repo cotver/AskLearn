@@ -44,6 +44,7 @@ const LoginPage = (props) => {
             })
             .catch((error) => {
                 setFerror("The Email or password is invalid")
+                setisLoading(false);
                 console.log(error)
             });
     }

@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TextInput, Image, Alert,TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TextInput, Image, Alert, TouchableOpacity } from 'react-native';
 import { Avatar, Button } from "react-native-elements";
-import firebase from '../../config/Firebase';
+import * as firebase from 'firebase';
+import firebase2 from '../../config/Firebase';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { HeaderBackground } from 'react-navigation-stack';
@@ -16,7 +17,7 @@ export default class TestScreen extends React.Component {
     isLoading: true,
     uid: "",
     userPic: "",
-    imageUrl:""
+    imageUrl: ""
   }
   static navigationOptions = {
     header: null,
@@ -38,12 +39,12 @@ export default class TestScreen extends React.Component {
     let data = []
     this.setState({ isLoading: true, })
 
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase2.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ uid: user.uid })
       }
       let users = []
-      firebase.database().ref().child('users').on('value', (snapshot) => {
+      firebase2.database().ref().child('users').on('value', (snapshot) => {
         users = snapshotToArray(snapshot)
           .filter(user => user.uid == this.state.uid)
 
@@ -59,16 +60,16 @@ export default class TestScreen extends React.Component {
   }
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
-        allowsEditing: true,
-        aspect: [4, 4],
-        quality: 1,
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 1,
     });
 
     if (!result.cancelled) {
-        this.uploadImage(result.uri)
+      this.uploadImage(result.uri)
     }
-};
+  };
   uploadImage = async (uri) => {
     try {
       const response = await fetch(uri);
@@ -77,11 +78,11 @@ export default class TestScreen extends React.Component {
       const ext = uri.split('.').pop(); // Extract image extension
       const filename = `${uniqid()}.${ext}`;
 
-      var ref = firebase.storage().ref().child("users/" + filename);
+      var ref = firebase2.storage().ref().child("users/" + filename);
       ref.put(blob).then(() => {
         ref.getDownloadURL().then((url) => {
           this.setState({ imageUrl: url })
-          firebase.database().ref()
+          firebase2.database().ref()
             .child('users')
             .child(this.state.user_id)
             .update({
@@ -94,7 +95,7 @@ export default class TestScreen extends React.Component {
       })
     }
     catch (error) {
-        console.log(error)
+      console.log(error)
     }
 
     return;
@@ -102,7 +103,7 @@ export default class TestScreen extends React.Component {
 
   userpic = () => {
     if (this.state.userPic != "") {
-      return <TouchableOpacity onPress={()=>this.pickImage()} style={{flex: 2, marginLeft: 60}}>
+      return <TouchableOpacity onPress={() => this.pickImage()} style={{ flex: 2, marginLeft: 60 }}>
         <Image source={{ uri: this.state.userPic }} style={styles.image} resizeMode="center" />
       </TouchableOpacity>
     }
@@ -110,8 +111,8 @@ export default class TestScreen extends React.Component {
       return <Avatar
         size={180}
         rounded
-        icon={{ name: 'user-edit', type: 'font-awesome' }}
-        onPress={() => {this.pickImage()}}
+        icon={{ name: 'user', type: 'font-awesome' }}
+        onPress={() => { this.pickImage() }}
         activeOpacity={0.7}
         containerStyle={{ flex: 2, marginLeft: 60 }} />
     }
@@ -120,6 +121,7 @@ export default class TestScreen extends React.Component {
   // Occurs when signout is pressed...
   onSignoutPress = () => {
     firebase.auth().signOut();
+    this.props.navigation.replace('LoginScreen')
   }
 
   // Reauthenticates the current user and returns a promise...
@@ -194,7 +196,16 @@ export default class TestScreen extends React.Component {
                   name="home"
                   size={30}
                   color="pink" />} title=" " onPress={this.onBackToHomePress} /></View>
+          <View style={{ padding: 10 }}>
+            <Button type="outline"
+              icon={
+                <Icon
+                  name="sign-out"
+                  size={30}
+                  color="pink" />} title=" SignOut" onPress={this.onSignoutPress} />
+          </View>
         </View>
+
         <Spinner visible={this.state.isLoading} />
       </ScrollView>
     );
